@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Multi Dice Roller</title>
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #diceContainer {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 80px;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input {
+      width: 60px;
+      padding: 8px;
+      font-size: 16px;
+      margin-right: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .result {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎲 Multi Dice Roller</h1>
+
+  <div>
+    <input type="number" id="diceCount" min="1" max="10" value="2">
+    <button onclick="rollDice()">Roll Dice</button>
+  </div>
+
+  <div id="diceContainer"></div>
+  <div class="result" id="result"></div>
+
+  <script>
+    const diceFaces = ['⚀','⚁','⚂','⚃','⚄','⚅'];
+
+    function rollDice() {
+      const count = parseInt(document.getElementById("diceCount").value);
+      const diceContainer = document.getElementById("diceContainer");
+      const resultText = document.getElementById("result");
+
+      diceContainer.innerHTML = "";
+      let total = 0;
+
+      for (let i = 0; i < count; i++) {
+        const roll = Math.floor(Math.random() * 6);
+        const face = diceFaces[roll];
+        total += (roll + 1);
+
+        const diceDiv = document.createElement("div");
+        diceDiv.innerText = face;
+        diceContainer.appendChild(diceDiv);
+      }
+
+      resultText.innerText = `You rolled ${count} dice. Total: ${total}`;
+    }
+  </script>
+
+</body>
+</html>

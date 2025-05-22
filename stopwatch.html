@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stopwatch with Milliseconds</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .stopwatch {
+      background: #fff;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #display {
+      font-size: 48px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+    }
+
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .start { background-color: #4CAF50; color: white; }
+    .stop { background-color: #f44336; color: white; }
+    .reset { background-color: #2196F3; color: white; }
+
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="stopwatch">
+    <div id="display">00:00:00.00</div>
+    <button class="start" onclick="start()">Start</button>
+    <button class="stop" onclick="stop()">Stop</button>
+    <button class="reset" onclick="reset()">Reset</button>
+  </div>
+
+  <script>
+    let [ms, s, m, h] = [0, 0, 0, 0];
+    let display = document.getElementById("display");
+    let timer = null;
+
+    function stopwatch() {
+      ms += 10;
+      if (ms === 1000) {
+        ms = 0;
+        s++;
+        if (s === 60) {
+          s = 0;
+          m++;
+          if (m === 60) {
+            m = 0;
+            h++;
+          }
+        }
+      }
+
+      let hh = h < 10 ? "0" + h : h;
+      let mm = m < 10 ? "0" + m : m;
+      let ss = s < 10 ? "0" + s : s;
+      let msDisplay = ms < 100 ? (ms < 10 ? "00" + ms : "0" + ms) : ms;
+
+      // Show only 2 digits of milliseconds
+      display.innerText = `${hh}:${mm}:${ss}.${msDisplay.slice(0, 2)}`;
+    }
+
+    function start() {
+      if (timer !== null) clearInterval(timer);
+      timer = setInterval(stopwatch, 10); // Run every 10ms
+    }
+
+    function stop() {
+      clearInterval(timer);
+    }
+
+    function reset() {
+      clearInterval(timer);
+      [ms, s, m, h] = [0, 0, 0, 0];
+      display.innerText = "00:00:00.00";
+    }
+  </script>
+
+</body>
+</html>
